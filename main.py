@@ -73,34 +73,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# .github/workflows/main.yml
-# This is the GitHub Actions workflow that runs the script hourly
-name: Crypto to Notion Sync
-
-on:
-  schedule:
-    - cron: '0 * * * *'  # Every hour
-  workflow_dispatch:
-
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Run the script
-        env:
-          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
-          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
-          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
-          POLYGONSCAN_API_KEY: ${{ secrets.POLYGONSCAN_API_KEY }}
-        run: python main.py
