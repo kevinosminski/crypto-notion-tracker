@@ -28,7 +28,7 @@ def get_polygon_transactions():
 
 
 def get_eth_price():
-    res = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=ethereum,polygon&vs_currencies=usd")
+    res = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=ethereum,matic-network&vs_currencies=usd")
     return res.json()
 
 
@@ -38,7 +38,7 @@ def filter_outgoing(txns):
 
 def send_to_notion(txn, network, prices):
     token = "ETH" if network == "Ethereum" else "MATIC"
-    token_price = prices["ethereum" if token == "ETH" else "polygon"]["usd"]
+    token_price = prices["ethereum" if token == "ETH" else "matic-network"]["usd"]
     amount = int(txn["value"]) / (10 ** 18)
     fiat = amount * token_price
     date = datetime.fromtimestamp(int(txn["timeStamp"])).isoformat()
