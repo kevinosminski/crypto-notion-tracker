@@ -48,16 +48,20 @@ def send_to_notion(txn, network, prices):
     date = datetime.fromtimestamp(int(txn["timeStamp"])).isoformat()
 
     payload = {
-        "parent": {"database_id": NOTION_DB_ID},
-        "properties": {
-            "Amount": {"number": amount},
-            "Token": {"rich_text": [{"text": {"content": token}}]},
-            "Fiat": {"number": fiat},
-            "Fiat Currency": {"rich_text": [{"text": {"content": "USD"}}]},
-            "Network": {"select": {"name": network}},
-            "To Address": {"rich_text": [{"text": {"content": txn["to"]}}]},
-            "Date": {"date": {"start": date}},
+    "parent": {"database_id": NOTION_DB_ID},
+    "properties": {
+        "Note": {
+            "title": [{"text": {"content": f"{token} → {txn['to']}"}}]
         },
+        "Amount": {"number": amount},
+        "Token": {"rich_text": [{"text": {"content": token}}]},
+        "Fiat": {"number": fiat},
+        "Fiat Currency": {"rich_text": [{"text": {"content": "USD"}}]},
+        "Network": {"select": {"name": network}},
+        "To Address": {"rich_text": [{"text": {"content": txn["to"]}}]},
+        "Date": {"date": {"start": date}},
+    },
+}
     }
     print("Sending to Notion:", payload)
     requests.post("https://api.notion.com/v1/pages", headers=HEADERS, json=payload)
