@@ -33,8 +33,12 @@ def get_eth_price():
 
 
 def filter_outgoing(txns):
-    return [tx for tx in txns if tx["from"].lower() == ADDRESS.lower() and int(tx["isError"]) == 0]
-
+    return [
+        tx for tx in txns
+        if tx["from"].lower() == ADDRESS.lower()
+        and int(tx["isError"]) == 0
+        and int(tx["value"]) > 0
+    ]
 
 def send_to_notion(txn, network, prices):
     token = "ETH" if network == "Ethereum" else "MATIC"
