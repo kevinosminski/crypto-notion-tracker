@@ -55,6 +55,7 @@ def send_to_notion(txn, network, prices):
             "Date": {"date": {"start": date}},
         },
     }
+    print("Sending to Notion:", payload)
     requests.post("https://api.notion.com/v1/pages", headers=HEADERS, json=payload)
 
 
